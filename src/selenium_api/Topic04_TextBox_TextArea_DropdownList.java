@@ -59,10 +59,10 @@ public class Topic04_TextBox_TextArea_DropdownList {
       State.sendKeys("Oxfordshire");
       PIN.sendKeys("123123");
       Phone.sendKeys("07888368186");
-      Email.sendKeys("automation" + randomEmail() + "@gmail.com");
+      Email.sendKeys("auto" + randomEmail() + "@gmail.com");
       Password.sendKeys("123456");
       Submit.click();
-      Thread.sleep(5000);
+      Thread.sleep(3000);
       
       String customerID = driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText();
 	  String customerName = driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td")).getText();
@@ -75,18 +75,23 @@ public class Topic04_TextBox_TextArea_DropdownList {
       driver.findElement(By.xpath("//input[@name='cusid']")).sendKeys(customerID);
       driver.findElement(By.xpath("//input[@name='AccSubmit']")).click();
       
-      Assert.assertEquals(customerName, Name.getAttribute("value"));
-      Assert.assertEquals(AddressID, Address.getText());
+      WebElement EditName = driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td/input"));
+      WebElement EditAddress = driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td/textarea"));
+      WebElement EditCity = driver.findElement(By.xpath("//td[text()='City']/following-sibling::td/input"));
       
-      Address.clear();
-      Address.sendKeys("Manor Road");
-      City.clear();
-      City.sendKeys("Stanlake");
-      Submit.click();
-      String CityID = driver.findElement(By.xpath("//td[contains(text(),'City']/following-sibling::td")).getText();
-      System.out.println(CityID);
-      Assert.assertEquals(AddressID, Address.getText());
-      Assert.assertEquals(CityID, City.getAttribute("value"));   
+      Assert.assertEquals(customerName, EditName.getAttribute("value"));
+      Assert.assertEquals(AddressID, EditAddress.getText());
+      
+      EditAddress.clear();
+      EditAddress.sendKeys("Manor Road");
+      EditCity.clear();
+      EditCity.sendKeys("Stanlake");
+      driver.findElement(By.xpath("//input[@name='sub']")).click();
+      String AddressIDNew = driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td")).getText();
+      Assert.assertEquals(AddressIDNew, driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td")).getText());
+      String CityID = driver.findElement(By.xpath("//td[text()='City']/following-sibling::td")).getText();
+      Assert.assertEquals(CityID, driver.findElement(By.xpath("//td[text()='City']/following-sibling::td")).getText()); 
+      
   }
   
   	 public int randomEmail() {
